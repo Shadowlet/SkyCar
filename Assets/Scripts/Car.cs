@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Car : MonoBehaviour
 {
+    public GameObject wings;
+
     public float maxTurnAngle = 10;
     public float maxTorque = 10;
     public WheelCollider wheelFL;
@@ -44,12 +46,18 @@ public class Car : MonoBehaviour
     private int numberOfGears;
     private float gearSpread;
 
+    private bool isFlying = false;
+    private float counter;
+
     private void Start()
     {
+        counter = 0;
         body = GetComponent<Rigidbody>();
         body.centerOfMass += centerOfMass;
         gearSpread = topSpeed / numberOfGears;
 
+
+        //--NOT FIXED--//
         wheelRotation = new Vector3(0, Input.GetAxis("Horizontal") * 2, 0);
     }
 
@@ -148,9 +156,30 @@ public class Car : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void UpdateCarFlight()
     {
+        
+        if (currentSpeed < topSpeed)
+        {
+            currentSpeed += (currentSpeed + 2) - topSpeed;
+            //body.velocity = new Vector3(currentSpeed, this.transform.position.y);
+        }
+        body.velocity = transform.forward * 20;
 
+        //Vector3 flightRotation
+        if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
+        {
+            car.transform.Rotate(Input.GetAxis("Vertical"), transform.rotation.y, Input.GetAxis("Horizontal"));
+        }
+        else
+        {
+            car.transform.Rotate(0, 0, 0);
+        }
+        
+    }
+
+    private void UpdateCarGround()
+    {
         currentSpeed = wheelRL.radius * wheelRL.rpm * Mathf.PI * 0.12f;
 
         //Handbrake controls
@@ -162,7 +191,7 @@ public class Car : MonoBehaviour
             wheelFR.brakeTorque = maxBrakeTorque;
 
             //Wheels are locked, so power slide!
-            if(GetComponent<Rigidbody>().velocity.magnitude > 1)
+            if (GetComponent<Rigidbody>().velocity.magnitude > 1)
             {
                 SetSlipValues(handBrakeForwardSlip, handBrakeSidewaySlip);
             }
@@ -206,7 +235,8 @@ public class Car : MonoBehaviour
         {
             wheelRL.brakeTorque = decelerationTorque + maxTorque;
             wheelRR.brakeTorque = decelerationTorque + maxTorque;
-        } else if(Input.GetAxis("Vertical") == 0)
+        }
+        else if (Input.GetAxis("Vertical") == 0)
         {
             wheelRL.brakeTorque = decelerationTorque;
             wheelRR.brakeTorque = decelerationTorque;
@@ -216,6 +246,22 @@ public class Car : MonoBehaviour
             wheelRL.brakeTorque = 0;
             wheelRR.brakeTorque = 0;
         }
+    }
+
+    private void FixedUpdate()
+    {
+        /*if (isFlying == false)
+        {
+            UpdateCarGround();
+        }
+        else if (isFlying == true)
+        {
+            UpdateCarFlight();
+        }*/
+
+        UpdateCarFlight();
+        //UpdateCarGround();
+        
 
         
     }
@@ -238,5 +284,32 @@ public class Car : MonoBehaviour
         tempStruct = wheelRL.sidewaysFriction;
         tempStruct.stiffness = sideways;
         wheelRL.sidewaysFriction = tempStruct;
+    }
+
+    private void SwitchMode(bool isInAir)
+    {
+        if (isInAir == true)
+        {
+            wings.gameObject.SetActive(true);
+            body.useGravity = false;
+        }
+        if (isInAir == false)
+        {
+            wings.gameObject.SetActive(false);
+            body.useGravity = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider triggerBox)
+    {
+        if (triggerBox.gameObject.tag == "boxAir")
+        {
+            SwitchMode(false);
+        }
+
+        if (triggerBox.gameObject.tag == "boxGround")
+        {
+            SwitchMode(true);
+        }
     }
 }
