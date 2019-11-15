@@ -48,6 +48,8 @@ public class Car : MonoBehaviour
 
     private bool isFlying = false;
     private float counter;
+    private float rotSpeed = 110;
+    private Vector3 airOffset;
 
     private void Start()
     {
@@ -64,7 +66,10 @@ public class Car : MonoBehaviour
     private void Update()
     {
         UpdateWheelPositions();
-        UpdateWheelRotation();
+        if (!isFlying)
+        {
+            UpdateWheelRotation();
+        }
 
         float rotationThisFrame = 360 * Time.deltaTime;
         wheelTransformFL.Rotate(wheelFL.rpm / rotationThisFrame, 0, 0);
@@ -158,24 +163,33 @@ public class Car : MonoBehaviour
 
     private void UpdateCarFlight()
     {
-        
+        Quaternion AddRot = Quaternion.identity;
+        float pitch = 0;
+        float yaw = 0;
+        float roll = 0;
+
+        pitch = Input.GetAxis("Pitch") * (Time.deltaTime * rotSpeed);
+        yaw = Input.GetAxis("Yaw") * (Time.deltaTime * rotSpeed);
+        roll = Input.GetAxis("Roll") * (Time.deltaTime * rotSpeed);
+        AddRot.eulerAngles = new Vector3(-pitch, yaw, -roll);
+        car.rotation *= AddRot;
+        Vector3 AddPos = Vector3.forward;
+        AddPos = car.rotation * AddPos;
+
         if (currentSpeed < topSpeed)
         {
             currentSpeed += (currentSpeed + 2) - topSpeed;
             //body.velocity = new Vector3(currentSpeed, this.transform.position.y);
         }
+        //body.velocity = AddPos * (Time.deltaTime * 100); // Always move forward
         body.velocity = transform.forward * 20;
 
-        //Vector3 flightRotation
-        if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
+        /*if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
         {
             car.transform.Rotate(Input.GetAxis("Vertical"), transform.rotation.y, Input.GetAxis("Horizontal"));
-        }
-        else
-        {
-            car.transform.Rotate(0, 0, 0);
-        }
-        
+        }*/
+
+
     }
 
     private void UpdateCarGround()
@@ -250,16 +264,16 @@ public class Car : MonoBehaviour
 
     private void FixedUpdate()
     {
-        /*if (isFlying == false)
+        if (isFlying == false)
         {
             UpdateCarGround();
         }
         else if (isFlying == true)
         {
             UpdateCarFlight();
-        }*/
+        }
 
-        UpdateCarFlight();
+        //UpdateCarFlight();
         //UpdateCarGround();
         
 
@@ -290,13 +304,21 @@ public class Car : MonoBehaviour
     {
         if (isInAir == true)
         {
+            isFlying = true;
             wings.gameObject.SetActive(true);
             body.useGravity = false;
+
+            airOffset = new Vector3(transform.position.x, transform.position.y + 20, transform.position.z);
+            transform.position = airOffset;
         }
         if (isInAir == false)
         {
+            isFlying = false;
             wings.gameObject.SetActive(false);
             body.useGravity = true;
+
+            airOffset = new Vector3(transform.position.x, 5, transform.position.z);
+            transform.position = airOffset;
         }
     }
 
@@ -310,6 +332,17 @@ public class Car : MonoBehaviour
         if (triggerBox.gameObject.tag == "boxGround")
         {
             SwitchMode(true);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isFlying)
+        {
+            if (collision.gameObject.name == "Terrain")
+            {
+                transform.position = airOffset;
+            }
         }
     }
 }
