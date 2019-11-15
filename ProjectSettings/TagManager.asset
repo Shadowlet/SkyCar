@@ -6,6 +6,7 @@ TagManager:
   tags:
   - boxAir
   - boxGround
+  - ring
   layers:
   - Default
   - TransparentFX

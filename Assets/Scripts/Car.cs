@@ -47,9 +47,12 @@ public class Car : MonoBehaviour
     private float gearSpread;
 
     private bool isFlying = false;
+    private bool isBoosting = false;
     private float counter;
     private float rotSpeed = 110;
     private Vector3 airOffset;
+    private float boostTimer;
+    private float boostSpeed = 3.5f;
 
     private void Start()
     {
@@ -65,6 +68,12 @@ public class Car : MonoBehaviour
 
     private void Update()
     {
+        boostTimer -= Time.deltaTime;
+        if (boostTimer <= 0)
+        {
+            isBoosting = false;
+        }
+
         UpdateWheelPositions();
         if (!isFlying)
         {
@@ -182,8 +191,14 @@ public class Car : MonoBehaviour
             //body.velocity = new Vector3(currentSpeed, this.transform.position.y);
         }
         //body.velocity = AddPos * (Time.deltaTime * 100); // Always move forward
-        body.velocity = transform.forward * 20;
-
+        if (isBoosting == true)
+        {
+            body.velocity = transform.forward * 20 * boostSpeed;
+        }
+        else if(isBoosting == false)
+        {
+            body.velocity = transform.forward * 20;
+        }
         /*if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
         {
             car.transform.Rotate(Input.GetAxis("Vertical"), transform.rotation.y, Input.GetAxis("Horizontal"));
@@ -276,8 +291,12 @@ public class Car : MonoBehaviour
         //UpdateCarFlight();
         //UpdateCarGround();
         
+    }
 
-        
+    private void ApplyBoost()
+    {
+        isBoosting = true;
+        boostTimer = 2f;
     }
 
     private void SetSlipValues(float forward, float sideways)
@@ -310,6 +329,11 @@ public class Car : MonoBehaviour
 
             airOffset = new Vector3(transform.position.x, transform.position.y + 20, transform.position.z);
             transform.position = airOffset;
+
+            wheelFL.gameObject.SetActive(false);
+            wheelFR.gameObject.SetActive(false);
+            wheelRL.gameObject.SetActive(false);
+            wheelRR.gameObject.SetActive(false);
         }
         if (isInAir == false)
         {
@@ -327,11 +351,17 @@ public class Car : MonoBehaviour
         if (triggerBox.gameObject.tag == "boxAir")
         {
             SwitchMode(false);
+            //transform.rotation = triggerBox.transform.rotation;
         }
 
         if (triggerBox.gameObject.tag == "boxGround")
         {
             SwitchMode(true);
+        }
+
+        if (triggerBox.gameObject.tag == "ring")
+        {
+            ApplyBoost();
         }
     }
 
