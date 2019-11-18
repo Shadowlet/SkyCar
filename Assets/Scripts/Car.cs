@@ -196,7 +196,7 @@ public class Car : MonoBehaviour
         //body.velocity = AddPos * (Time.deltaTime * 100); // Always move forward
         if (isBoosting == true)
         {
-            body.velocity = transform.forward * 30 * boostSpeed;
+            body.velocity = transform.forward * 20 * boostSpeed;
         }
         else if(isBoosting == false)
         {
