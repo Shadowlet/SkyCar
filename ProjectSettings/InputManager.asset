@@ -251,8 +251,8 @@ InputManager:
     descriptiveNegativeName: 
     negativeButton: up
     positiveButton: down
-    altNegativeButton: 
-    altPositiveButton: joystick button 0
+    altNegativeButton: w
+    altPositiveButton: s
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -265,8 +265,8 @@ InputManager:
     m_Name: Yaw
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: enter
+    negativeButton: q
+    positiveButton: e
     altNegativeButton: 
     altPositiveButton: space
     gravity: 1000
@@ -283,8 +283,8 @@ InputManager:
     descriptiveNegativeName: 
     negativeButton: left
     positiveButton: right
-    altNegativeButton: 
-    altPositiveButton: joystick button 1
+    altNegativeButton: a
+    altPositiveButton: d
     gravity: 1000
     dead: 0.001
     sensitivity: 1000

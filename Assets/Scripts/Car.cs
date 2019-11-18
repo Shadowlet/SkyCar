@@ -68,6 +68,9 @@ public class Car : MonoBehaviour
 
     private void Update()
     {
+        //--SAME THING--//
+        wheelRotation = new Vector3(0, body.transform.rotation.y, 0);
+
         boostTimer -= Time.deltaTime;
         if (boostTimer <= 0)
         {
@@ -178,8 +181,8 @@ public class Car : MonoBehaviour
         float roll = 0;
 
         pitch = Input.GetAxis("Pitch") * (Time.deltaTime * rotSpeed);
-        yaw = Input.GetAxis("Yaw") * (Time.deltaTime * rotSpeed);
-        roll = Input.GetAxis("Roll") * (Time.deltaTime * rotSpeed);
+        yaw = Input.GetAxis("Yaw") * (Time.deltaTime * rotSpeed) * 0.5f;
+        roll = Input.GetAxis("Roll") * (Time.deltaTime * rotSpeed) * 0.5f;
         AddRot.eulerAngles = new Vector3(-pitch, yaw, -roll);
         car.rotation *= AddRot;
         Vector3 AddPos = Vector3.forward;
@@ -193,11 +196,11 @@ public class Car : MonoBehaviour
         //body.velocity = AddPos * (Time.deltaTime * 100); // Always move forward
         if (isBoosting == true)
         {
-            body.velocity = transform.forward * 20 * boostSpeed;
+            body.velocity = transform.forward * 30 * boostSpeed;
         }
         else if(isBoosting == false)
         {
-            body.velocity = transform.forward * 20;
+            body.velocity = transform.forward * 30;
         }
         /*if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
         {
@@ -327,6 +330,7 @@ public class Car : MonoBehaviour
             wings.gameObject.SetActive(true);
             body.useGravity = false;
 
+            //Checkpoint
             airOffset = new Vector3(transform.position.x, transform.position.y + 20, transform.position.z);
             transform.position = airOffset;
 
@@ -341,8 +345,14 @@ public class Car : MonoBehaviour
             wings.gameObject.SetActive(false);
             body.useGravity = true;
 
+            //Checkpoint
             airOffset = new Vector3(transform.position.x, 5, transform.position.z);
             transform.position = airOffset;
+
+            wheelFL.gameObject.SetActive(true);
+            wheelFR.gameObject.SetActive(true);
+            wheelRL.gameObject.SetActive(true);
+            wheelRR.gameObject.SetActive(true);
         }
     }
 
