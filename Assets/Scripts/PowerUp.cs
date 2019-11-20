@@ -22,6 +22,7 @@ public class PowerUp : MonoBehaviour
     private void GivePowerUp()
     {
         itemImage = rocketImage;
+        //itemImage = boostImage;
     }
 
     private void OnTriggerEnter(Collision collision)
