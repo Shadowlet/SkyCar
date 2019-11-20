@@ -54,6 +54,8 @@ public class Car : MonoBehaviour
     private float boostTimer;
     private float boostSpeed = 3.5f;
 
+    private int currentItem;
+
     private void Start()
     {
         counter = 0;
@@ -300,6 +302,11 @@ public class Car : MonoBehaviour
     {
         isBoosting = true;
         boostTimer = 2f;
+    }
+
+    private void UseItem()
+    {
+        
     }
 
     private void SetSlipValues(float forward, float sideways)
