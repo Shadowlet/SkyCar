@@ -2145,7 +2145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: e6fec471c20b9d148b1f87910e67bea4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.86
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: e6fec471c20b9d148b1f87910e67bea4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2866,7 +2866,6 @@ MonoBehaviour:
   idleLightTex: {fileID: 2800000, guid: 81e662bcaa25f744ab758cdd3f5952d0, type: 3}
   brakeLightTex: {fileID: 2800000, guid: c1563c6e4ba189f48aa51ce3548760d9, type: 3}
   reverseLightTex: {fileID: 2800000, guid: 5b29ae36e5eeae240b4ef7b117105338, type: 3}
-  currentItem: 0
 --- !u!82 &1374484906
 AudioSource:
   m_ObjectHideFlags: 0
