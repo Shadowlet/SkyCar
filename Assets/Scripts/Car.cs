@@ -38,6 +38,7 @@ public class Car : MonoBehaviour
     public float handBrakeSidewaySlip = 0.08f;
 
     public GameObject brakeLight;
+    private ItemManager itemManager;
 
     public Texture2D idleLightTex;
     public Texture2D brakeLightTex;
@@ -54,11 +55,12 @@ public class Car : MonoBehaviour
     private float boostTimer;
     private float boostSpeed = 3.5f;
 
-    private int currentItem;
+    
 
     private void Start()
     {
         counter = 0;
+        itemManager = GetComponent<ItemManager>();
         body = GetComponent<Rigidbody>();
         body.centerOfMass += centerOfMass;
         gearSpread = topSpeed / numberOfGears;
@@ -93,6 +95,27 @@ public class Car : MonoBehaviour
 
         DetermineBrakeLightState();
         EngineSound();
+    }
+
+    private void FixedUpdate()
+    {
+        if (isFlying == false)
+        {
+            UpdateCarGround();
+        }
+        else if (isFlying == true)
+        {
+            UpdateCarFlight();
+        }
+
+        if (Input.GetKeyDown("Shift"))
+        {
+            UseItem();
+        }
+
+        //UpdateCarFlight();
+        //UpdateCarGround();
+
     }
 
     private void EngineSound()
@@ -282,22 +305,6 @@ public class Car : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (isFlying == false)
-        {
-            UpdateCarGround();
-        }
-        else if (isFlying == true)
-        {
-            UpdateCarFlight();
-        }
-
-        //UpdateCarFlight();
-        //UpdateCarGround();
-        
-    }
-
     private void ApplyBoost()
     {
         isBoosting = true;
@@ -306,7 +313,10 @@ public class Car : MonoBehaviour
 
     private void UseItem()
     {
-        
+        for (int i = 0; i < 3; i++)
+        {
+            
+        }
     }
 
     private void SetSlipValues(float forward, float sideways)
