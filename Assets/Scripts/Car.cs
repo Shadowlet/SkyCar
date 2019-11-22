@@ -110,6 +110,7 @@ public class Car : MonoBehaviour
 
         if (Input.GetKeyDown("Shift"))
         {
+            itemManager.GetItem(this.gameObject);
             UseItem();
         }
 
@@ -311,14 +312,7 @@ public class Car : MonoBehaviour
         boostTimer = 2f;
     }
 
-    private void UseItem()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            
-        }
-    }
-
+    
     private void SetSlipValues(float forward, float sideways)
     {
         //Change the stiffness values of the wheel friction
@@ -337,6 +331,11 @@ public class Car : MonoBehaviour
         tempStruct = wheelRL.sidewaysFriction;
         tempStruct.stiffness = sideways;
         wheelRL.sidewaysFriction = tempStruct;
+    }
+
+    public void UseItem(int item)
+    {
+        for (int i; )
     }
 
     private void SwitchMode(bool isInAir)
