@@ -38,6 +38,7 @@ public class Car : MonoBehaviour
     public float handBrakeSidewaySlip = 0.08f;
 
     public GameObject brakeLight;
+    public GameObject rocket;
     private ItemManager itemManager;
 
     public Texture2D idleLightTex;
@@ -55,6 +56,11 @@ public class Car : MonoBehaviour
     private float boostTimer;
     private float boostSpeed = 3.5f;
 
+    public int currentItem;
+    private Vector3 rocketOffset;
+    private Vector3 rocketRotation;
+    private Transform rocketTransform;
+
     
 
     private void Start()
@@ -64,7 +70,6 @@ public class Car : MonoBehaviour
         body = GetComponent<Rigidbody>();
         body.centerOfMass += centerOfMass;
         gearSpread = topSpeed / numberOfGears;
-
 
         //--NOT FIXED--//
         wheelRotation = new Vector3(0, Input.GetAxis("Horizontal") * 2, 0);
@@ -108,10 +113,9 @@ public class Car : MonoBehaviour
             UpdateCarFlight();
         }
 
-        if (Input.GetKeyDown("Shift"))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            itemManager.GetItem(this.gameObject);
-            UseItem();
+            UseItem(currentItem);
         }
 
         //UpdateCarFlight();
@@ -335,7 +339,25 @@ public class Car : MonoBehaviour
 
     public void UseItem(int item)
     {
-        for (int i; )
+        if (item == 1)
+        {
+            //Rocket
+            ShootRocket();
+        }
+        else if(item == 2)
+        {
+            //Boost
+        }
+    }
+
+    private void ShootRocket()
+    {
+        GameObject newRocket = Instantiate(rocket, car.transform);
+        //newRocket.transform.position = Vector3.forward + 10;
+        newRocket.transform.Rotate(0, car.transform.rotation.y, 0);
+
+        newRocket.GetComponent<Rigidbody>().AddForce(Vector3.forward);
+        Debug.Log("SHOOT");
     }
 
     private void SwitchMode(bool isInAir)

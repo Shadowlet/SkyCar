@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    public int currentItem = 0; // Empty
+    public int itemNum = 0; // Empty
     private Car car;
 
-    public void UseItem(GameObject targetedCar)
+    public void GetItem(GameObject targetedCar)
     {
-        targetedCar.GetComponent<Car>();
-        car.UseItem(currentItem);
+        car = targetedCar.GetComponent<Car>();
+        car.currentItem = itemNum;
 
     }
 

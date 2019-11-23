@@ -9,7 +9,7 @@ public class PowerUp : MonoBehaviour
     //private SpeedBoost speedBoost;
     private Car car;
     private Rigidbody chestRB;
-    private ItemManager itemManager;
+    public ItemManager itemManager;
 
     public Image itemImage;
     public Sprite rocketImage;
@@ -20,7 +20,7 @@ public class PowerUp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        itemManager = GetComponent<ItemManager>();
+        //itemManager = GetComponent<ItemManager>();
         car = GetComponent<Car>();
         chestRB = GetComponent<Rigidbody>();
         rocket = GetComponent<Rocket>();
@@ -42,9 +42,7 @@ public class PowerUp : MonoBehaviour
         {
             itemImage.sprite = boostImage;
         }
-        itemManager.currentItem = itemNum; // 1 -- Rocket, 2 -- Boost;
-
-        gameObject.SetActive(false);
+        itemManager.itemNum = itemNum; // 1 -- Rocket, 2 -- Boost;
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -52,8 +50,10 @@ public class PowerUp : MonoBehaviour
         if (collision.gameObject.tag == "car")
         {
             //Debug.Log("COLLDIEREREGHUIERIOJE");
-            GivePowerUp(Random.Range(1,2));
-            
+            GivePowerUp(Random.Range(1, 2));
+            itemManager.GetItem(collision.gameObject);
+
+            gameObject.SetActive(false);
         }
     }
 }
