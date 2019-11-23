@@ -39,6 +39,7 @@ public class Car : MonoBehaviour
 
     public GameObject brakeLight;
     public GameObject rocket;
+    public GameObject mine;
     private ItemManager itemManager;
 
     public Texture2D idleLightTex;
@@ -90,6 +91,11 @@ public class Car : MonoBehaviour
         if (!isFlying)
         {
             UpdateWheelRotation();
+            //Boost item
+            if(isBoosting == true)
+            {
+                body.velocity = car.transform.forward * 1.5f; 
+            }
         }
 
         float rotationThisFrame = 360 * Time.deltaTime;
@@ -100,6 +106,11 @@ public class Car : MonoBehaviour
 
         DetermineBrakeLightState();
         EngineSound();
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            UseItem(currentItem);
+        }
     }
 
     private void FixedUpdate()
@@ -113,10 +124,7 @@ public class Car : MonoBehaviour
             UpdateCarFlight();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            UseItem(currentItem);
-        }
+        
 
         //UpdateCarFlight();
         //UpdateCarGround();
@@ -347,17 +355,30 @@ public class Car : MonoBehaviour
         else if(item == 2)
         {
             //Boost
+            ApplyBoost();
         }
     }
 
     private void ShootRocket()
     {
-        GameObject newRocket = Instantiate(rocket, car.transform);
-        //newRocket.transform.position = Vector3.forward + 10;
+        GameObject newRocket = Instantiate(rocket, rocketTransform);
         newRocket.transform.Rotate(0, car.transform.rotation.y, 0);
+        newRocket.transform.position = this.transform.position + (1.5f * transform.forward);
 
-        newRocket.GetComponent<Rigidbody>().AddForce(Vector3.forward);
+
+
+        newRocket.GetComponent<Rigidbody>().AddForce(car.transform.forward * 5000);
+        //currentItem = 0;
         Debug.Log("SHOOT");
+    }
+
+    private void DropMine()
+    {
+        GameObject newMine = Instantiate(rocket, rocketTransform);
+        newMine.transform.Rotate(0, car.transform.rotation.y, 0);
+        newMine.transform.position = this.transform.position + (1.5f * transform.forward);
+
+
     }
 
     private void SwitchMode(bool isInAir)

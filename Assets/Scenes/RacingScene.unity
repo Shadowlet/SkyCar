@@ -825,7 +825,6 @@ GameObject:
   - component: {fileID: 410427071}
   - component: {fileID: 410427070}
   - component: {fileID: 410427073}
-  - component: {fileID: 410427074}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -915,19 +914,6 @@ MonoBehaviour:
   height: 5
   rotationDamping: 3
   heightDamping: 2
---- !u!114 &410427074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 410427069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0e183d40b18120429459c9185b98b19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemNum: 0
 --- !u!1 &412963721
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,10 +1704,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511ed799b3e14774eb269da55fbc596c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemManager: {fileID: 410427074}
+  itemManager: {fileID: 0}
   itemImage: {fileID: 1383915258}
   rocketImage: {fileID: 21300000, guid: 38a8fc201ae2c1d4ba942aec5c10ce8f, type: 3}
   boostImage: {fileID: 21300000, guid: ec49a13d8989d4b4da1160961f8ac99e, type: 3}
+  mineImage: {fileID: 0}
 --- !u!65 &783882584
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1858,12 +1845,12 @@ GameObject:
   - component: {fileID: 996938769}
   - component: {fileID: 996938768}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: ItemCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &996938767
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2883,6 +2870,7 @@ MonoBehaviour:
   handBrakeSidewaySlip: 2
   brakeLight: {fileID: 84752826}
   rocket: {fileID: 6078126285276750991, guid: 3c828ff9fe6ffc5409c1321dbe555cd5, type: 3}
+  mine: {fileID: 0}
   idleLightTex: {fileID: 2800000, guid: 81e662bcaa25f744ab758cdd3f5952d0, type: 3}
   brakeLightTex: {fileID: 2800000, guid: c1563c6e4ba189f48aa51ce3548760d9, type: 3}
   reverseLightTex: {fileID: 2800000, guid: 5b29ae36e5eeae240b4ef7b117105338, type: 3}

@@ -14,6 +14,7 @@ public class PowerUp : MonoBehaviour
     public Image itemImage;
     public Sprite rocketImage;
     public Sprite boostImage;
+    public Sprite mineImage;
 
     private Vector3 chestRotation = new Vector3(0, 2, 0);
 
@@ -42,6 +43,10 @@ public class PowerUp : MonoBehaviour
         {
             itemImage.sprite = boostImage;
         }
+        else if(itemNum == 3)
+        {
+            itemImage.sprite = mineImage;
+        }
         itemManager.itemNum = itemNum; // 1 -- Rocket, 2 -- Boost;
     }
 
@@ -50,7 +55,7 @@ public class PowerUp : MonoBehaviour
         if (collision.gameObject.tag == "car")
         {
             //Debug.Log("COLLDIEREREGHUIERIOJE");
-            GivePowerUp(Random.Range(1, 2));
+            GivePowerUp(Random.Range(1, 3));
             itemManager.GetItem(collision.gameObject);
 
             gameObject.SetActive(false);
