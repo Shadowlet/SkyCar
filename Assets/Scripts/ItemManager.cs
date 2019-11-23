@@ -9,6 +9,7 @@ public class ItemManager : MonoBehaviour
 
     public void GetItem(GameObject targetedCar)
     {
+        //Item Manager gives the car it's item.
         car = targetedCar.GetComponent<Car>();
         car.currentItem = itemNum;
 

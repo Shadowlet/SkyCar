@@ -47,7 +47,7 @@ public class PowerUp : MonoBehaviour
         {
             itemImage.sprite = mineImage;
         }
-        itemManager.itemNum = itemNum; // 1 -- Rocket, 2 -- Boost;
+        itemManager.itemNum = itemNum; // 1 -- Rocket, 2 -- Boost, 3 -- Mine;
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -55,8 +55,8 @@ public class PowerUp : MonoBehaviour
         if (collision.gameObject.tag == "car")
         {
             //Debug.Log("COLLDIEREREGHUIERIOJE");
-            GivePowerUp(Random.Range(1, 3));
-            itemManager.GetItem(collision.gameObject);
+            GivePowerUp(Random.Range(1, 4));
+            itemManager.GetItem(collision.gameObject); //Gives specific car to ItemManager.
 
             gameObject.SetActive(false);
         }

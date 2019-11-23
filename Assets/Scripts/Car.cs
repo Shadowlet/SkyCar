@@ -57,7 +57,7 @@ public class Car : MonoBehaviour
     private float boostTimer;
     private float boostSpeed = 3.5f;
 
-    public int currentItem;
+    public int currentItem; // 1 -- Rocket, 2 -- Boost, 3 -- Mine
     private Vector3 rocketOffset;
     private Vector3 rocketRotation;
     private Transform rocketTransform;
@@ -94,7 +94,7 @@ public class Car : MonoBehaviour
             //Boost item
             if(isBoosting == true)
             {
-                body.velocity = car.transform.forward * 1.5f; 
+                body.velocity = car.transform.forward * 5f; 
             }
         }
 
@@ -357,6 +357,13 @@ public class Car : MonoBehaviour
             //Boost
             ApplyBoost();
         }
+        else if(item == 3)
+        {
+            //Mine
+            DropMine();
+        }
+        //Reset item to none.
+        currentItem = 0;
     }
 
     private void ShootRocket()
@@ -368,13 +375,13 @@ public class Car : MonoBehaviour
 
 
         newRocket.GetComponent<Rigidbody>().AddForce(car.transform.forward * 5000);
-        //currentItem = 0;
+        
         Debug.Log("SHOOT");
     }
 
     private void DropMine()
     {
-        GameObject newMine = Instantiate(rocket, rocketTransform);
+        GameObject newMine = Instantiate(mine, rocketTransform);
         newMine.transform.Rotate(0, car.transform.rotation.y, 0);
         newMine.transform.position = this.transform.position + (1.5f * transform.forward);
 
